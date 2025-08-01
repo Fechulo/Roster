@@ -29,12 +29,13 @@ day = datetime(year, month, 1)
 # Build events
 cal = Calendar()
 for i, shift_code in enumerate(shifts):
-    day = day + timedelta(days=1)
     if shift_code == "R" or shift_code.upper() not in shift_map:
         continue
 
     start_str = shift_map[shift_code.upper()]["start"]
     end_str = shift_map[shift_code.upper()]["end"]
+
+    day = datetime(year, month, 1) + timedelta(days=i)
 
     start_hour, start_min = map(int, start_str.split(":"))
     end_hour, end_min = map(int, end_str.split(":"))
