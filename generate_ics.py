@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from ics import Calendar, Event
+from ics.grammar.parse import ContentLine
 import pytz
 
 # File paths
@@ -68,7 +69,9 @@ for i in range(8):
         event.name = "Day "+str(cycle_day)
         event.begin = day + timedelta(days=i)
         event.make_all_day()
-        event.extra.append("RRULE:FREQ=DAILY;INTERVAL=8")
+        event.extra.append(
+            ContentLine(name="RRULE", value="FREQ=DAILY;INTERVAL=8")
+        )
         cal.events.add(event)
 
 # Save ICS
