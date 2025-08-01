@@ -31,8 +31,8 @@ for i, shift_code in enumerate(shifts):
     if shift_code == "R" or shift_code.upper() not in shift_map:
         continue
 
-    start_str = shift_map[shift_code]["start"]
-    end_str = shift_map[shift_code]["end"]
+    start_str = shift_map[shift_code.upper()]["start"]
+    end_str = shift_map[shift_code.upper()]["end"]
 
     day = day + timedelta(days=1)
 
