@@ -65,7 +65,7 @@ for i in range(8):
     cycle_day = (cycle_start_day + i) % 8
     if cycle_day <= 5 and cycle_day != 0:
         event = Event()
-        event.name = "Day "+cycle_day
+        event.name = "Day "+str(cycle_day)
         event.begin = day + timedelta(days=i)
         event.make_all_day()
         event.extra.append(
