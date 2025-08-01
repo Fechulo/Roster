@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - roster.txt
-      - shift_times.json
+      - shifts.json
       - generate_ics.py
 
 jobs:
