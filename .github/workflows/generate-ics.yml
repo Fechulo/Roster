@@ -6,6 +6,7 @@ on:
       - roster.txt
       - shifts.json
       - generate_ics.py
+      - requirements.txt
 
 jobs:
   build:
