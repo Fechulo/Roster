@@ -8,7 +8,7 @@ import pytz
 # File paths
 ROSTER_FILE = Path("roster.txt")
 SHIFT_FILE = Path("shifts.json")
-OUTPUT_FILE = Path("calendar.ics")
+OUTPUT_FILE = Path("roster.ics")
 
 # Timezone
 IRELAND = pytz.timezone("Europe/Dublin")
