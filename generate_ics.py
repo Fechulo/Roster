@@ -23,17 +23,18 @@ with open(ROSTER_FILE) as f:
     shifts = lines[1]
 
 year, month = map(int, year_month.split("-"))
+day = datetime(year, month, 1) 
 
 # Build events
 cal = Calendar()
 for i, shift_code in enumerate(shifts):
-    if shift_code == "R" or shift_code not in shift_map:
+    if shift_code == "R" or shift_code.upper() not in shift_map:
         continue
 
     start_str = shift_map[shift_code]["start"]
     end_str = shift_map[shift_code]["end"]
 
-    day = datetime(year, month, 1) + timedelta(days=i)
+    day = day + timedelta(days=1)
 
     start_hour, start_min = map(int, start_str.split(":"))
     end_hour, end_min = map(int, end_str.split(":"))
@@ -50,10 +51,27 @@ for i, shift_code in enumerate(shifts):
     end_dt = IRELAND.localize(datetime(day.year, day.month, day.day, end_hour, end_min))
 
     event = Event()
-    event.name = f"{shift_code} Shift"
+    event.name = shift_code
+    if shift_code.isnumeric():
+        event.name = "OC"+shift_code
+    if shift_code.islower():
+        event.name = shift_code.upper()+" (OT)"
     event.begin = start_dt
     event.end = end_dt
     cal.events.add(event)
+
+cycle_start_day = shifts.count("#")
+for i in range(8):
+    cycle_day = (cycle_start_day + i) % 8
+    if cycle_day <= 5 and cycle_day != 0:
+        event = Event()
+        event.name = "Day "+cycle_day
+        event.begin = day + timedelta(days=i)
+        event.make_all_day()
+        event.extra.append(
+            ContentLine(name="RRULE", value="FREQ=DAILY;INTERVAL=8")
+        )
+        cal.events.add(event)
 
 # Save ICS
 with open(OUTPUT_FILE, "w") as f:
