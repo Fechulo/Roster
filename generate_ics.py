@@ -67,7 +67,7 @@ for i in range(8):
     if cycle_day <= 5 and cycle_day != 0:
         event = Event()
         event.name = "Day "+str(cycle_day)
-        event.begin = day + timedelta(days=i)
+        event.begin = day + timedelta(days=i+1)
         event.make_all_day()
         event.extra.append(
             ContentLine(name="RRULE", value="FREQ=DAILY;INTERVAL=8")
