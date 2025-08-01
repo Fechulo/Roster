@@ -6,7 +6,7 @@ import pytz
 
 # File paths
 ROSTER_FILE = Path("roster.txt")
-SHIFT_FILE = Path("shift_times.json")
+SHIFT_FILE = Path("shifts.json")
 OUTPUT_FILE = Path("calendar.ics")
 
 # Timezone
