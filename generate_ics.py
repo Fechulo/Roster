@@ -108,7 +108,7 @@ for i, label in enumerate(cycle_labels):
                 # Format: EXDATE;TZID=Europe/Dublin:YYYYMMDD
                 exdate_str = exdate.strftime('%Y%m%d')
                 event.extra.append(
-                    ContentLine(name="EXDATE", params={"VALUE": "DATE"}, value=exdate_str)
+                    ContentLine(name="EXDATE", params="VALUE=DATE", value=exdate_str)
                 )
     
         cal.events.add(event)
