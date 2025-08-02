@@ -2,6 +2,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from ics import Calendar, Event
+from ics.grammar.parse import ContentLine
 import pytz
 
 # File paths
@@ -89,24 +90,26 @@ cycle_start = datetime(year, month, day1).date()
 
 for i, label in enumerate(cycle_labels):
     first_day = cycle_start + timedelta(days=i)
-
-    event = Event()
-    event.name = label
-    event.begin = first_day
-    event.make_all_day()
-    event.rrule = {
-        "freq": "daily",
-        "interval": 8
-    }
-
-    # Add EXDATEs for holidays or rostered shifts that match this cycle
-    for exdate in holidays.union(rostered_days):
-        if (exdate - first_day).days % 8 == 0:
-            # Format: EXDATE;TZID=Europe/Dublin:YYYYMMDD
-            exdate_str = exdate.strftime('%Y%m%d')
-            event.extra.append(f"EXDATE;VALUE=DATE:{exdate_str}")
-
-    cal.events.add(event)
+    if i <= 5:
+        event = Event()
+        event.name = label
+        event.begin = first_day
+        event.make_all_day()
+        event.rrule = {
+            "freq": "daily",
+            "interval": 8
+        }
+    
+        # Add EXDATEs for holidays or rostered shifts that match this cycle
+        for exdate in holidays.union(rostered_days):
+            if (exdate - first_day).days % 8 == 0:
+                # Format: EXDATE;TZID=Europe/Dublin:YYYYMMDD
+                exdate_str = exdate.strftime('%Y%m%d')
+                event.extra.append(
+                    ContentLine(name="EXDATE", params={"VALUE": "DATE"}, value=exdate_str)
+                )
+    
+        cal.events.add(event)
 
 # Save ICS
 with open(OUTPUT_FILE, "w") as f:
