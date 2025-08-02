@@ -84,6 +84,8 @@ for i, shift_code in enumerate(shifts):
     event.end = end_dt
     cal.events.add(event)
 
+    rostered_days.add(current_day.date())
+
 # Recurring Day Cycle with EXDATEs
 cycle_labels = [f"Day {i}" for i in range(1, 9)]
 cycle_start = datetime(year, month, day1).date()
