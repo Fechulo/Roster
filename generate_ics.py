@@ -107,9 +107,7 @@ for i, label in enumerate(cycle_labels):
             if (exdate - first_day).days % 8 == 0:
                 # Format: EXDATE;TZID=Europe/Dublin:YYYYMMDD
                 exdate_str = exdate.strftime('%Y%m%d')
-                event.extra.append(
-                    ContentLine(name="EXDATE", params=[("VALUE", "DATE")], value=exdate_str)
-                )
+                event.raw.append(f"EXDATE;VALUE=DATE:{exdate_str}")
     
         cal.events.add(event)
 
